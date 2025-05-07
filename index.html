@@ -340,6 +340,7 @@
     document.getElementById('crisis-popup').classList.add('hidden');
     document.getElementById('crisis-popup').style.display = 'none';
   });
+<script>
 document.getElementById('submitFinal').addEventListener('click', function (e) {
   e.preventDefault();
 
@@ -354,7 +355,16 @@ document.getElementById('submitFinal').addEventListener('click', function (e) {
     }
   }).then(response => {
     if (response.ok) {
-      goToStep(10); // move to thank-you screen
+      // 👇 Force step 10 to show
+      document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+      document.querySelector('[data-step="10"]').classList.add('active');
+
+      // 👇 Update progress bar visually
+      currentStep = 10;
+      stepProgress();
+
+      // 👇 Scroll to top of form smoothly
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       alert('There was an issue submitting the form. Please try again.');
     }
@@ -363,6 +373,8 @@ document.getElementById('submitFinal').addEventListener('click', function (e) {
     alert('Something went wrong. Please try again.');
   });
 });
+</script>
+
 
 
 </script>
