@@ -340,10 +340,10 @@
     document.getElementById('crisis-popup').classList.add('hidden');
     document.getElementById('crisis-popup').style.display = 'none';
   });
-document.getElementById('wingman-form').addEventListener('submit', function (e) {
-  e.preventDefault(); // prevent default form submission
+document.getElementById('submitFinal').addEventListener('click', function (e) {
+  e.preventDefault();
 
-  const form = e.target;
+  const form = document.getElementById('wingman-form');
   const formData = new FormData(form);
 
   fetch(form.action, {
@@ -354,7 +354,7 @@ document.getElementById('wingman-form').addEventListener('submit', function (e) 
     }
   }).then(response => {
     if (response.ok) {
-      goToStep(10); // move to final step
+      goToStep(10); // move to thank-you screen
     } else {
       alert('There was an issue submitting the form. Please try again.');
     }
@@ -363,6 +363,7 @@ document.getElementById('wingman-form').addEventListener('submit', function (e) 
     alert('Something went wrong. Please try again.');
   });
 });
+
 
 </script>
 </body>
