@@ -235,76 +235,12 @@
       });
     };
 
-    createBubbleOptions('goals-options', [
-    "Improve mental focus and daily routines",
-    "Be a better dad/partner/friend",
-    "Feel less anxious, stressed, or overwhelmed",
-    "Build healthier habits (eating, sleeping, screen time)",
-    "Break bad habits (drinking, smoking, procrastinating)",
-    "Get support with a big life change or loss",
-    "Communicate better with loved ones",
-    "Feel more motivated, confident, or in control",
-    "Prepare for a new job or career move",
-    "Improve productivity and work-life balance",
-    "Make more time for things I enjoy",
-    "Build a stronger social life or community",
-    "Get back into the gym or move more regularly",
-    "Stay accountable to my goals",
-    "Find more meaning or direction in life",
-    "Manage money or financial stress better",
-    "Other"   
-    ]);
-
-    createBubbleOptions('looking-for-options', [
-      "Mental Health Coaching",
-      "Therapy/Counseling",
-      "Community/Support Groups",
-      "Crisis Support/Immediate Help",
-      "Self Help Resources/Tools",
-      "Peer Support/Mentorship",
-      "Specialized Support (i.e. addiction, fatherhood, relationships, identity, etc.)"
-    ].sort(), true, "Crisis Support/Immediate Help");
-
-    createBubbleOptions('time-commitment-options', [
-      "Up to 30 Minutes",
-      "Up to 1 Hour",
-      "Up to 2 Hours",
-      "More than 2 Hours"
-    ], false);
-
-    createBubbleOptions('price-limit-options', [
-      "More than $10",
-      "More than $25",
-      "More than $50",
-      "More than $75",
-      "More than $100",
-      "More than $125",
-      "More than $150",
-      "More than $175",
-      "More than $200",
-      "More than $250",
-      "More than $300",
-      "More than $400",
-      "More than $500"
-    ], false);
-
-    createBubbleOptions('coach-superpower-options', [
-      "Incredible Listener",
-      "Amazing Motivator",
-      "Wealth of Wisdom",
-      "Calm, Cool, and Collected",
-      "A+ Accountability",
-      "Your Bigger Fan & Champion"
-    ], false);
-
-    createBubbleOptions('support-format-options', [
-      "Texting/Messaging",
-      "Phone Calls",
-      "Video Calls",
-      "In-Person",
-      "Asynchronous Drop-Ins (Email, etc.)"
-    ], true);
-
+    createBubbleOptions('goals-options', [...]);
+    createBubbleOptions('looking-for-options', [...]);
+    createBubbleOptions('time-commitment-options', [...]);
+    createBubbleOptions('price-limit-options', [...]);
+    createBubbleOptions('coach-superpower-options', [...]);
+    createBubbleOptions('support-format-options', [...]);
     createBubbleOptions('previous-experience-options', ["Yes", "No"], false);
 
     const steps = document.querySelectorAll('.form-step');
@@ -365,7 +301,5 @@
   });
 </script>
 
-
-</script>
 </body>
 </html>
