@@ -196,13 +196,18 @@
   <p style="margin-bottom: 1.5rem;">
     If you're ready to get started with something immediately, you can try Wingman Mental Health coaching for free.
   </p>
-  <a href="https://wingmanmentalhealth.com/pricing" target="_blank" style="text-decoration: none;">
-    <button type="button" class="submit-btn">Choose Your Wingman Package</button>
-  </a>
+
+  <!-- ✅ Add hidden redirect field -->
+  <input type="hidden" name="_redirect" value="https://wingmanmentalhealth.com/pricing">
+
+  <!-- ✅ This is the actual submit button -->
+  <button type="button" class="submit-btn" id="submitFinal">Submit</button>
+
   <p style="margin-top: 1.5rem;">No Commitment Required. First Week is Free.</p>
 </div>
 
-         </form> <!-- Close the form BEFORE step 10 -->
+</form> <!-- ✅ Now form wraps all form-step divs properly -->
+
   </div>
 
   <div id="crisis-popup" class="popup hidden" style="display: none;">
@@ -327,25 +332,30 @@
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Auto-submit on step 10
-  if (step === 10) {
-    const form = document.getElementById('wingman-form');
-    const formData = new FormData(form);
+  document.getElementById('submitFinal').addEventListener('click', function () {
+  const form = document.getElementById('wingman-form');
+  const formData = new FormData(form);
 
-    fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => {
-      if (!response.ok) {
-        alert('There was an issue submitting the form. But we’ll still show you this screen.');
-      }
-    }).catch(error => {
-      console.error('Submission error:', error);
-      alert('Something went wrong. But we’ll still show you this screen.');
-    });
-  }
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      window.location.href = 'https://wingmanmentalhealth.com/pricing';
+    } else {
+      alert('There was an issue submitting the form. Please try again.');
+    }
+  })
+  .catch(error => {
+    console.error('Submission error:', error);
+    alert('Something went wrong. Please try again.');
+  });
+});
+
 };
 
 
