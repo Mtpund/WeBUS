@@ -206,169 +206,172 @@
   </div>
 
 <script>
-  const createBubbleOptions = (containerId, options, multi = true, trigger = null) => {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    options.forEach(text => {
-      const div = document.createElement('div');
-      div.className = 'bubble-option';
-      div.textContent = text;
-      div.onclick = () => {
-        if (!multi) {
-          container.querySelectorAll('.bubble-option').forEach(o => o.classList.remove('selected'));
+  document.addEventListener('DOMContentLoaded', () => {
+    const createBubbleOptions = (containerId, options, multi = true, trigger = null) => {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      options.forEach(text => {
+        const div = document.createElement('div');
+        div.className = 'bubble-option';
+        div.textContent = text;
+        div.onclick = () => {
+          if (!multi) {
+            container.querySelectorAll('.bubble-option').forEach(o => o.classList.remove('selected'));
+          }
+          div.classList.toggle('selected');
+          if (text === trigger) {
+            document.getElementById('crisis-popup').classList.remove('hidden');
+            document.getElementById('crisis-popup').style.display = 'flex';
+          }
+          if (!multi) goToStep(currentStep + 1);
+        };
+        container.appendChild(div);
+      });
+    };
+
+    createBubbleOptions('goals-options', [
+      "Be a better dad/partner/friend",
+      "Be more productive at work",
+      "Break bad habits (like drinking too much, smoking, or procrastinating)",
+      "Build better daily routines",
+      "Communicate better with my partner or family",
+      "Deal with big life changes (like a breakup, job loss, becoming a dad, etc.)",
+      "Deal with grief or loss",
+      "Eat healthier",
+      "Feel happier or more motivated",
+      "Feel less anxious",
+      "Feel less lonely",
+      "Feel more in control of my emotions",
+      "Find more meaning or purpose in life",
+      "Get support for quitting substances (alcohol, drugs, etc.)",
+      "Get to the gym more regularly",
+      "Handle anger or frustration better",
+      "Have more confidence",
+      "Have more energy during the day",
+      "Improve work-life balance",
+      "Make more time for hobbies or things I enjoy",
+      "Make new friends or improve my social life",
+      "Manage money or financial stress better",
+      "Prepare for a new job or career change",
+      "Reduce stress",
+      "Set and stick to personal goals",
+      "Sleep better",
+      "Spend less time on my phone or gaming",
+      "Stay accountable to my goals",
+      "Stop feeling stuck or overwhelmed",
+      "Other"
+    ]);
+
+    createBubbleOptions('looking-for-options', [
+      "Mental Health Coaching",
+      "Therapy/Counseling",
+      "Community/Support Groups",
+      "Crisis Support/Immediate Help",
+      "Self Help Resources/Tools",
+      "Peer Support/Mentorship",
+      "Specialized Support (i.e. addiction, fatherhood, relationships, identity, etc.)"
+    ].sort(), true, "Crisis Support/Immediate Help");
+
+    createBubbleOptions('time-commitment-options', [
+      "Up to 30 Minutes",
+      "Up to 1 Hour",
+      "Up to 2 Hours",
+      "More than 2 Hours"
+    ], false);
+
+    createBubbleOptions('price-limit-options', [
+      "More than $10",
+      "More than $25",
+      "More than $50",
+      "More than $75",
+      "More than $100",
+      "More than $125",
+      "More than $150",
+      "More than $175",
+      "More than $200",
+      "More than $250",
+      "More than $300",
+      "More than $400",
+      "More than $500"
+    ], false);
+
+    createBubbleOptions('coach-superpower-options', [
+      "Incredible Listener",
+      "Amazing Motivator",
+      "Wealth of Wisdom",
+      "Calm, Cool, and Collected",
+      "A+ Accountability",
+      "Your Bigger Fan & Champion"
+    ], false);
+
+    createBubbleOptions('support-format-options', [
+      "Texting/Messaging",
+      "Phone Calls",
+      "Video Calls",
+      "In-Person",
+      "Asynchronous Drop-Ins (Email, etc.)"
+    ], true);
+
+    createBubbleOptions('previous-experience-options', ["Yes", "No"], false);
+
+    const steps = document.querySelectorAll('.form-step');
+    const nextBtns = document.querySelectorAll('.next-btn');
+    let currentStep = 0;
+
+    const stepProgress = () => {
+      const segments = document.querySelectorAll('.progress-segment');
+      segments.forEach((seg, i) => {
+        seg.classList.toggle('active', i <= currentStep);
+      });
+    };
+
+    const goToStep = (step) => {
+      steps.forEach((s, i) => s.classList.toggle('active', i === step));
+      currentStep = step;
+      stepProgress();
+      location.hash = '#form-top';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    nextBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        goToStep(currentStep + 1);
+      });
+    });
+
+    document.getElementById('close-popup').addEventListener('click', () => {
+      document.getElementById('crisis-popup').classList.add('hidden');
+      document.getElementById('crisis-popup').style.display = 'none';
+    });
+
+    document.getElementById('wingman-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
         }
-        div.classList.toggle('selected');
-        if (text === trigger) {
-          document.getElementById('crisis-popup').classList.remove('hidden');
-          document.getElementById('crisis-popup').style.display = 'flex';
+      }).then(response => {
+        if (response.ok) {
+          setTimeout(() => {
+            goToStep(10);
+          }, 100);
+        } else {
+          alert('There was an issue submitting the form. Please try again.');
         }
-        if (!multi) goToStep(currentStep + 1);
-      };
-      container.appendChild(div);
-    });
-  };
-
-  createBubbleOptions('goals-options', [
-    "Be a better dad/partner/friend",
-    "Be more productive at work",
-    "Break bad habits (like drinking too much, smoking, or procrastinating)",
-    "Build better daily routines",
-    "Communicate better with my partner or family",
-    "Deal with big life changes (like a breakup, job loss, becoming a dad, etc.)",
-    "Deal with grief or loss",
-    "Eat healthier",
-    "Feel happier or more motivated",
-    "Feel less anxious",
-    "Feel less lonely",
-    "Feel more in control of my emotions",
-    "Find more meaning or purpose in life",
-    "Get support for quitting substances (alcohol, drugs, etc.)",
-    "Get to the gym more regularly",
-    "Handle anger or frustration better",
-    "Have more confidence",
-    "Have more energy during the day",
-    "Improve work-life balance",
-    "Make more time for hobbies or things I enjoy",
-    "Make new friends or improve my social life",
-    "Manage money or financial stress better",
-    "Prepare for a new job or career change",
-    "Reduce stress",
-    "Set and stick to personal goals",
-    "Sleep better",
-    "Spend less time on my phone or gaming",
-    "Stay accountable to my goals",
-    "Stop feeling stuck or overwhelmed",
-    "Other"
-  ]);
-
-  createBubbleOptions('looking-for-options', [
-    "Mental Health Coaching",
-    "Therapy/Counseling",
-    "Community/Support Groups",
-    "Crisis Support/Immediate Help",
-    "Self Help Resources/Tools",
-    "Peer Support/Mentorship",
-    "Specialized Support (i.e. addiction, fatherhood, relationships, identity, etc.)"
-  ].sort(), true, "Crisis Support/Immediate Help");
-
-  createBubbleOptions('time-commitment-options', [
-    "Up to 30 Minutes",
-    "Up to 1 Hour",
-    "Up to 2 Hours",
-    "More than 2 Hours"
-  ], false);
-
-  createBubbleOptions('price-limit-options', [
-    "More than $10",
-    "More than $25",
-    "More than $50",
-    "More than $75",
-    "More than $100",
-    "More than $125",
-    "More than $150",
-    "More than $175",
-    "More than $200",
-    "More than $250",
-    "More than $300",
-    "More than $400",
-    "More than $500"
-  ], false);
-
-  createBubbleOptions('coach-superpower-options', [
-    "Incredible Listener",
-    "Amazing Motivator",
-    "Wealth of Wisdom",
-    "Calm, Cool, and Collected",
-    "A+ Accountability",
-    "Your Bigger Fan & Champion"
-  ], false);
-
-  createBubbleOptions('support-format-options', [
-    "Texting/Messaging",
-    "Phone Calls",
-    "Video Calls",
-    "In-Person",
-    "Asynchronous Drop-Ins (Email, etc.)"
-  ], true);
-
-  createBubbleOptions('previous-experience-options', ["Yes", "No"], false);
-
-  const steps = document.querySelectorAll('.form-step');
-  const nextBtns = document.querySelectorAll('.next-btn');
-  let currentStep = 0;
-
-  const stepProgress = () => {
-    const segments = document.querySelectorAll('.progress-segment');
-    segments.forEach((seg, i) => {
-      seg.classList.toggle('active', i <= currentStep);
-    });
-  };
-
-  const goToStep = (step) => {
-    steps.forEach((s, i) => s.classList.toggle('active', i === step));
-    currentStep = step;
-    stepProgress();
-    location.hash = '#form-top';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  nextBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      goToStep(currentStep + 1);
-    });
-  });
-
-  document.getElementById('close-popup').addEventListener('click', () => {
-    document.getElementById('crisis-popup').classList.add('hidden');
-    document.getElementById('crisis-popup').style.display = 'none';
-  });
-<script>
-  document.getElementById('wingman-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => {
-      if (response.ok) {
-        setTimeout(() => {
-          goToStep(10);
-        }, 100); // slight delay to let the DOM settle
-      } else {
-        alert('There was an issue submitting the form. Please try again.');
-      }
-    }).catch(error => {
-      console.error('Submission error:', error);
-      alert('Something went wrong. Please try again.');
+      }).catch(error => {
+        console.error('Submission error:', error);
+        alert('Something went wrong. Please try again.');
+      });
     });
   });
 </script>
+
 
 </script>
 </body>
