@@ -185,7 +185,7 @@
             <input type="email" name="emergency_email" placeholder="Email" required>
             <input type="tel" name="emergency_phone" placeholder="Phone Number" required>
         </div>
-        <button type="submit" class="submit-btn" id="submitFinal">Submit</button>
+        <button type="button" class="submit-btn" id="submitFinal">Submit</button>
       </div>
 
      <div class="form-step" data-step="10" style="text-align: center; padding-top: 2rem;">
@@ -340,10 +340,12 @@
       document.getElementById('crisis-popup').style.display = 'none';
     });
 
-  document.getElementById('wingman-form').addEventListener('submit', function (e) {
-  e.preventDefault();
+ const form = document.getElementById('wingman-form');
+const submitButton = document.getElementById('submitFinal');
 
-  const form = e.target;
+submitButton.addEventListener('click', function (e) {
+  e.preventDefault(); // Prevent browser's default form submission
+
   const formData = new FormData(form);
 
   fetch(form.action, {
@@ -360,8 +362,7 @@
     console.error('Submission error:', error);
     alert('Something went wrong. We’ll still show you next steps.');
   }).finally(() => {
-    currentStep = 9;  // Ensure correct step context
-    goToStep(10);     // Now this will work
+    goToStep(10); // Always go to final screen
   });
 });
   });
