@@ -345,7 +345,20 @@
   location.hash = '#form-top';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Auto-submit on step 10
+};
+
+
+    nextBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        goToStep(currentStep + 1);
+      });
+    });
+
+    document.getElementById('close-popup').addEventListener('click', () => {
+      document.getElementById('crisis-popup').classList.add('hidden');
+      document.getElementById('crisis-popup').style.display = 'none';
+    });
+ 
   document.getElementById('submitFinal').addEventListener('click', function () {
   const form = document.getElementById('wingman-form');
   const formData = new FormData(form);
@@ -370,20 +383,6 @@
   });
 });
 
-};
-
-
-    nextBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        goToStep(currentStep + 1);
-      });
-    });
-
-    document.getElementById('close-popup').addEventListener('click', () => {
-      document.getElementById('crisis-popup').classList.add('hidden');
-      document.getElementById('crisis-popup').style.display = 'none';
-    });
-  });
 </script>
 
 </body>
