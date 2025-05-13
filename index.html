@@ -344,8 +344,21 @@
   stepProgress();
   location.hash = '#form-top';
   window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
-  // Auto-submit on step 10
+
+    nextBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        goToStep(currentStep + 1);
+      });
+    });
+
+    document.getElementById('close-popup').addEventListener('click', () => {
+      document.getElementById('crisis-popup').classList.add('hidden');
+      document.getElementById('crisis-popup').style.display = 'none';
+    });
+
+ // Auto-submit on step 10
   document.getElementById('submitFinal').addEventListener('click', function () {
   const form = document.getElementById('wingman-form');
   const formData = new FormData(form);
@@ -364,25 +377,6 @@
       alert('There was an issue submitting the form. Please try again.');
     }
   })
-  .catch(error => {
-    console.error('Submission error:', error);
-    alert('Something went wrong. Please try again.');
-  });
-});
-
-};
-
-
-    nextBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        goToStep(currentStep + 1);
-      });
-    });
-
-    document.getElementById('close-popup').addEventListener('click', () => {
-      document.getElementById('crisis-popup').classList.add('hidden');
-      document.getElementById('crisis-popup').style.display = 'none';
-    });
   });
 </script>
 
