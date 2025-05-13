@@ -217,26 +217,43 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const createBubbleOptions = (containerId, options, multi = true, trigger = null) => {
-      const container = document.getElementById(containerId);
-      if (!container) return;
-      options.forEach(text => {
-        const div = document.createElement('div');
-        div.className = 'bubble-option';
-        div.textContent = text;
-        div.onclick = () => {
-          if (!multi) {
-            container.querySelectorAll('.bubble-option').forEach(o => o.classList.remove('selected'));
-          }
-          div.classList.toggle('selected');
-          if (text === trigger) {
-            document.getElementById('crisis-popup').classList.remove('hidden');
-            document.getElementById('crisis-popup').style.display = 'flex';
-          }
-          if (!multi) goToStep(currentStep + 1);
-        };
-        container.appendChild(div);
-      });
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  // Create a hidden input to store selected values
+  const hiddenInput = document.createElement('input');
+  hiddenInput.type = 'hidden';
+  hiddenInput.name = containerId.replace('-options', ''); // clean field name
+  container.parentElement.appendChild(hiddenInput);
+
+  options.forEach(text => {
+    const div = document.createElement('div');
+    div.className = 'bubble-option';
+    div.textContent = text;
+
+    div.onclick = () => {
+      if (!multi) {
+        container.querySelectorAll('.bubble-option').forEach(o => o.classList.remove('selected'));
+      }
+      div.classList.toggle('selected');
+
+      if (text === trigger) {
+        document.getElementById('crisis-popup').classList.remove('hidden');
+        document.getElementById('crisis-popup').style.display = 'flex';
+      }
+
+      const selected = Array.from(container.querySelectorAll('.bubble-option.selected'))
+        .map(el => el.textContent.trim());
+
+      hiddenInput.value = multi ? selected.join(', ') : selected[0] || '';
+
+      if (!multi && selected.length) goToStep(currentStep + 1);
     };
+
+    container.appendChild(div);
+  });
+};
+
 
     createBubbleOptions('goals-options', [
     "Improve mental focus and daily routines",
